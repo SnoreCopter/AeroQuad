@@ -381,6 +381,7 @@ void sendSerialTelemetry() {
 
   switch (queryType) {
   case '=': // Reserved debug command to view any variable from Serial Monitor
+  #if defined (UseGPS)
     // ((navigatorSerialCommand+isGpsNavigationInitialized+haveAGpsLock()) == 3)
     //  SERIAL_PRINT("Enabled: Des:");
     //else
@@ -432,6 +433,7 @@ void sendSerialTelemetry() {
     //SERIAL_PRINT(velRollCommand);
     //SERIAL_PRINT(" velPitch:");
     //SERIAL_PRINT(velPitchCommand);
+    #endif
     SERIAL_PRINTLN();
     break;
 
@@ -498,8 +500,8 @@ void sendSerialTelemetry() {
 
   case 'g': // Send transmitter calibration data
     for (byte axis = XAXIS; axis < LASTCHANNEL; axis++) {
-      Serial.print(receiverSlope[axis], 6);
-      Serial.print(',');
+      SERIAL_PRINT(receiverSlope[axis], 6);
+      SERIAL_PRINT(',');
     }
     SERIAL_PRINTLN();
     queryType = 'X';
@@ -507,8 +509,8 @@ void sendSerialTelemetry() {
 
   case 'h': // Send transmitter calibration data
     for (byte axis = XAXIS; axis < LASTCHANNEL; axis++) {
-      Serial.print(receiverOffset[axis], 6);
-      Serial.print(',');
+      SERIAL_PRINT(receiverOffset[axis], 6);
+      SERIAL_PRINT(',');
     }
     SERIAL_PRINTLN();
     queryType = 'X';
