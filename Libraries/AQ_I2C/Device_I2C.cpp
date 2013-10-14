@@ -21,6 +21,7 @@
 // I2C functions
 #include "Device_I2C.h"
 
+/*
 void sendByteI2C(int deviceAddress, byte dataValue) {
 
   Wire.beginTransmission(deviceAddress);
@@ -101,5 +102,4 @@ void updateRegisterI2C(int deviceAddress, byte dataAddress, byte dataValue) {
   Wire.endTransmission();
 }  
 
-
-
+*/

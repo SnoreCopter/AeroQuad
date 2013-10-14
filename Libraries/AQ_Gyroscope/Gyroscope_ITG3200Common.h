@@ -63,7 +63,7 @@ void initializeGyro() {
 
 void measureGyro() {
   sendByteI2C(ITG3200_ADDRESS, ITG3200_MEMORY_ADDRESS);
-  Wire.requestFrom(ITG3200_ADDRESS, ITG3200_BUFFER_SIZE);
+  requestI2C(ITG3200_ADDRESS, ITG3200_BUFFER_SIZE);
 
   int gyroADC[3];
   measureSpecificGyroADC(gyroADC);
@@ -82,7 +82,7 @@ void measureGyro() {
 
 void measureGyroSum() {
   sendByteI2C(ITG3200_ADDRESS, ITG3200_MEMORY_ADDRESS);
-  Wire.requestFrom(ITG3200_ADDRESS, ITG3200_BUFFER_SIZE);
+  requestI2C(ITG3200_ADDRESS, ITG3200_BUFFER_SIZE);
   
   measureSpecificGyroSum();
   

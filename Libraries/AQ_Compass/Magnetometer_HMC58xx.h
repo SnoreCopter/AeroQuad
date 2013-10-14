@@ -61,7 +61,7 @@ void initializeMagnetometer() {
 void measureMagnetometer(float roll, float pitch) {
     
   sendByteI2C(COMPASS_ADDRESS, 0x03);
-  Wire.requestFrom(COMPASS_ADDRESS, 6);
+  requestI2C(COMPASS_ADDRESS, 6);
 
   readSpecificMag(rawMag);
 

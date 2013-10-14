@@ -217,7 +217,7 @@ void readMPU6000Sensors()
 {
   #ifdef MPU6000_I2C
     sendByteI2C(MPU6000_I2C_ADDRESS, MPUREG_ACCEL_XOUT_H);
-    Wire.requestFrom(MPU6000_I2C_ADDRESS, sizeof(MPU6000));
+    requestI2C(MPU6000_I2C_ADDRESS, sizeof(MPU6000));
     for(byte i=0; i<sizeof(MPU6000)/sizeof(short); i++) {
       MPU6000.rawWord[i] = readWordI2C();
     }
@@ -225,10 +225,10 @@ void readMPU6000Sensors()
     spiMPU6000.Read(MPUREG_ACCEL_XOUT_H, MPU6000.rawByte, sizeof(MPU6000));
     MPU6000SwapData(MPU6000.rawByte, sizeof(MPU6000));
   #endif
-    logPrintF("mpu6000;%5d;%5d;%5d;%5d;%5d;%5d;%5d\r\n",
+/*    logPrintF("mpu6000;%5d;%5d;%5d;%5d;%5d;%5d;%5d\r\n",
             MPU6000.data.accel.x, MPU6000.data.accel.y, MPU6000.data.accel.z,
             MPU6000.data.gyro.x, MPU6000.data.gyro.y, MPU6000.data.gyro.z,
-            MPU6000.data.temperature);
+            MPU6000.data.temperature); */
 }
 
 int readMPU6000Count=0;
