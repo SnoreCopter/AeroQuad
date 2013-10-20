@@ -18,10 +18,11 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>. 
 */
 
+/*
+
 // I2C functions
 #include "Device_I2C.h"
 
-/*
 void sendByteI2C(int deviceAddress, byte dataValue) {
 
   Wire.beginTransmission(deviceAddress);

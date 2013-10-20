@@ -53,7 +53,7 @@
 #endif 
 
 #include <EEPROM.h>
-#include <Wire.h>
+//#include <Wire.h>
 #include <GlobalDefined.h>
 #include "AeroQuad.h"
 #include "PID.h"
@@ -1524,6 +1524,8 @@ void process10HzTask2() {
   #if defined(BattMonitor)
     measureBatteryVoltage(G_Dt*1000.0);
   #endif
+
+  updateSnoreCopter10HZ();
 
   // Listen for configuration commands and reports telemetry
   readSerialCommand();

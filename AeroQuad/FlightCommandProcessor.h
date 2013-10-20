@@ -174,9 +174,7 @@ void armMotors() {
     }
   #endif
 
-  for (byte motor = 0; motor < LASTMOTOR; motor++) {
-    motorCommand[motor] = MINTHROTTLE;
-  }
+  commandAllMotors(MINTHROTTLE);
   motorArmed = ON;
   
   #ifdef EnableLogging

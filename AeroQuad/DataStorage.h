@@ -260,6 +260,8 @@ void initializeEEPROM() {
       servoTXChannels = 1;
     #endif
   #endif
+  
+  initPlatformEEPROM();
 }
 
 void readEEPROM() {
