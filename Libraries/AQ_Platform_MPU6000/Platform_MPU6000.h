@@ -182,6 +182,8 @@ void initializeMPU6000Sensors()
   #ifndef MPU6000_I2C
     // Disable I2C bus
     MPU6000_WriteReg(MPUREG_USER_CTRL, BIT_I2C_IF_DIS);
+  #else
+    updateRegisterI2C(MPU6000_I2C_ADDRESS, MPUREG_INT_PIN_CFG, 0x02);   //   I2C_BYPASS_EN=1
   #endif
 
   // Wake Up device and select GyroZ clock (better performance)
