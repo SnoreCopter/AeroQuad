@@ -199,11 +199,7 @@ void initializeEEPROM() {
     receiverSlope[channel] = 1.0;
     receiverOffset[channel] = 0.0;
     receiverSmoothFactor[channel] = 1.0;
-	receiverMinValue[channel] = 1500; 
-	receiverMaxValue[channel] = 1500;
-	receiverTrimValue[channel] = 1500;
   }
-  receiverSmoothFactor[ZAXIS] = 0.5;
 
   flightMode = RATE_FLIGHT_MODE;
   headingHoldConfig = ON;
@@ -239,6 +235,8 @@ void initializeEEPROM() {
       waypoint[location].latitude = GPS_INVALID_ANGLE;
       waypoint[location].altitude = GPS_INVALID_ALTITUDE;
     }
+    waypointCaptureDistance = 6.0;
+    forwardSpeed = 15.0;
   #endif
 
   // Camera Control
@@ -328,6 +326,8 @@ void readEEPROM() {
     readPID(GPSROLL_PID_IDX, GPSROLL_PID_GAIN_ADR);
     readPID(GPSPITCH_PID_IDX, GPSPITCH_PID_GAIN_ADR);
     readPID(GPSYAW_PID_IDX, GPSYAW_PID_GAIN_ADR);
+    waypointCaptureDistance = readFloat(WAYPOINT_CAPTURE_ADR);
+    forwardSpeed = readFloat(FORWARD_SPEED_ADR);
     
     for (byte location = 0; location < MAX_WAYPOINTS; location++) {
       waypoint[location].longitude = readLong(WAYPOINT_ADR[location].longitude);
@@ -408,9 +408,6 @@ void writeEEPROM(){
     writeFloat(receiverSlope[channel],  RECEIVER_DATA[channel].slope);
     writeFloat(receiverOffset[channel], RECEIVER_DATA[channel].offset);
     writeFloat(receiverSmoothFactor[channel], RECEIVER_DATA[channel].smooth_factor);
-	writeFloat(receiverMinValue[channel], RECEIVER_DATA[channel].min);
-	writeFloat(receiverMaxValue[channel], RECEIVER_DATA[channel].max);
-	writeFloat(receiverTrimValue[channel], RECEIVER_DATA[channel].trim);
   }
 
   writeFloat(minArmedThrottle, MINARMEDTHROTTLE_ADR);
@@ -441,6 +438,8 @@ void writeEEPROM(){
     writePID(GPSROLL_PID_IDX, GPSROLL_PID_GAIN_ADR);
     writePID(GPSPITCH_PID_IDX, GPSPITCH_PID_GAIN_ADR);
     writePID(GPSYAW_PID_IDX, GPSYAW_PID_GAIN_ADR);
+    writeFloat(waypointCaptureDistance, WAYPOINT_CAPTURE_ADR);
+    writeFloat(forwardSpeed, FORWARD_SPEED_ADR);
     
     for (byte location = 0; location < MAX_WAYPOINTS; location++) {
       writeLong(waypoint[location].longitude, WAYPOINT_ADR[location].longitude);
@@ -504,9 +503,6 @@ void initReceiverFromEEPROM() {
     receiverSlope[channel] = readFloat(RECEIVER_DATA[channel].slope);
     receiverOffset[channel] = readFloat(RECEIVER_DATA[channel].offset);
     receiverSmoothFactor[channel] = readFloat(RECEIVER_DATA[channel].smooth_factor);
-	receiverMinValue[channel] = readFloat(RECEIVER_DATA[channel].min);
-	receiverMaxValue[channel] = readFloat(RECEIVER_DATA[channel].max);
-	receiverTrimValue[channel] = readFloat(RECEIVER_DATA[channel].trim);
   }
 }
 
