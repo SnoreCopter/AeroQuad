@@ -95,8 +95,7 @@ void processCalibrateESC()
     safetyCheck = ON;
     break;
   default:
-    for (byte motor = 0; motor < LASTMOTOR; motor++)
-      motorCommand[motor] = MINCOMMAND;
+    commandAllMotors(MINCOMMAND);
   }
   // Send calibration commands to motors
   writeMotors(); // Defined in Motors.h
@@ -245,7 +244,11 @@ void processHardManuevers() {
       (receiverCommand[YAXIS] < MINCHECK) ||
       (receiverCommand[YAXIS] > MAXCHECK)) {  
         
+    #ifdef triConfig
+    for (int motor = 1; motor < LASTMOTOR; motor++) {
+    #else
     for (int motor = 0; motor < LASTMOTOR; motor++) {
+    #endif
       motorMinCommand[motor] = minArmedThrottle;
       motorMaxCommand[motor] = MAXCOMMAND;
     }
@@ -260,21 +263,30 @@ void processHardManuevers() {
  */
 void processMinMaxCommand()
 {
-  for (byte motor = 0; motor < LASTMOTOR; motor++)
-  {
+    #ifdef triConfig
+    for (int motor = 1; motor < LASTMOTOR; motor++) {
+    #else
+    for (int motor = 0; motor < LASTMOTOR; motor++) {
+    #endif  
     motorMinCommand[motor] = minArmedThrottle;
     motorMaxCommand[motor] = MAXCOMMAND;
   }
 
-  int maxMotor = motorCommand[0];
-  
+  #ifdef triConfig
+    int maxMotor = motorCommand[1];   // welponer: triConfig issue
+  #else
+    int maxMotor = motorCommand[0];   // welponer: triConfig issue  
+  #endif
   for (byte motor=1; motor < LASTMOTOR; motor++) {
     if (motorCommand[motor] > maxMotor) {
       maxMotor = motorCommand[motor];
     }
   }
-    
+  #ifdef triConfig  
+  for (byte motor = 1; motor < LASTMOTOR; motor++) {
+  #else
   for (byte motor = 0; motor < LASTMOTOR; motor++) {
+  #endif
     if (maxMotor > MAXCOMMAND) {
       motorCommand[motor] =  motorCommand[motor] - (maxMotor - MAXCOMMAND);
     }
@@ -334,7 +346,13 @@ void processFlightControl() {
 
   // If throttle in minimum position, don't apply yaw
   if (receiverCommand[THROTTLE] < MINCHECK) {
+#ifdef triConfig
+    for (byte motor = 1; motor < LASTMOTOR; motor++) {
+    motorCommand[SERVO] = 1500; 
+    motorMaxCommand[SERVO] = 1800;
+#else
     for (byte motor = 0; motor < LASTMOTOR; motor++) {
+#endif
       motorMinCommand[motor] = minArmedThrottle;
       if (inFlight && flightMode == RATE_FLIGHT_MODE) {
         motorMaxCommand[motor] = MAXCOMMAND;
@@ -345,6 +363,11 @@ void processFlightControl() {
     }
   }
   
+#ifdef triConfig
+motorMinCommand[SERVO] = 1300;
+motorMaxCommand[SERVO] = 1700;
+#endif
+
   // Apply limits to motor commands
   for (byte motor = 0; motor < LASTMOTOR; motor++) {
     motorCommand[motor] = constrain(motorCommand[motor], motorMinCommand[motor], motorMaxCommand[motor]);

@@ -1466,7 +1466,10 @@ void process100HzTask() {
       processCameraTXControl();
     #endif
   #endif       
+  
+  updateSnoreCopter100Hz();
 
+  
 }
 
 /*******************************************************************
@@ -1524,8 +1527,6 @@ void process10HzTask2() {
   #if defined(BattMonitor)
     measureBatteryVoltage(G_Dt*1000.0);
   #endif
-
-  updateSnoreCopter10HZ();
 
   // Listen for configuration commands and reports telemetry
   readSerialCommand();
