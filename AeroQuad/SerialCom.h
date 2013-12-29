@@ -427,8 +427,8 @@ void sendSerialTelemetry() {
     //SERIAL_PRINT(posRollCommand);
     //SERIAL_PRINT(" pitchCmd:");
     //SERIAL_PRINT(posPitchCommand);
-    //SERIAL_PRINT(" gpsRollAxisCorrection:");
-    //SERIAL_PRINT(gpsRollAxisCorrection);
+    SERIAL_PRINT(" gpsRollAxisCorrection:");
+    SERIAL_PRINT(gpsRollAxisCorrection);
     //SERIAL_PRINT(" gpsPitchAxisCorrection:");
     //SERIAL_PRINT(gpsPitchAxisCorrection);
     //SERIAL_PRINT(" velRoll:");
